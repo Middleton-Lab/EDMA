@@ -30,6 +30,20 @@ form_diff_rel <- function(FM_B, FM_A) {
   return(FDM)
 }
 
+form_size <- function(FM) {
+  LT <- as.numeric(FM[lower.tri(FM)])
+  S <- prod(LT) ^ (1 / length(LT))
+  return(S)
+}
+
+shape_matrix <- function(M) {
+  FM <- form(M)
+  SM <- FM / form_size(FM)
+  return(SM)
+}
+
+##############################################################################
+
 A <- matrix(c(0, 1, 0, 0, 0, 1), ncol = 2)
 B <- matrix(c(0, 2, 0, 0, 0, 1), ncol = 2)
 
@@ -41,3 +55,12 @@ FM_B <- form(B)
 
 form_diff_arith(FM_B, FM_A)
 form_diff_rel(FM_B, FM_A)
+
+shape_matrix(A)
+shape_matrix(B)
+
+# Size difference
+form_size(form(B)) / form_size(form(A))
+
+# Form difference matrix
+form_diff_arith(shape_matrix(B), shape_matrix(A))
